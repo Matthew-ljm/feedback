@@ -195,7 +195,7 @@
       </div>
 
       <div class="form-group file-upload">
-        <label>上传图片(总大小不超过5MB):</label>
+        <label>上传图片(总大小不超过4MB):</label>
         <label class="upload-button" for="images">
           点击上传图片
           <input type="file" id="images" name="images" class="file-input" accept="image/*" multiple>
@@ -216,8 +216,8 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const MAX_FILE_SIZE = 5 * 1024 * 1024;
-      const MAX_TOTAL_SIZE = 5 * 1024 * 1024; // 4MB (留6MB给其他数据)
+      const MAX_FILE_SIZE = 4 * 1024 * 1024;
+      const MAX_TOTAL_SIZE = 4 * 1024 * 1024; // 4MB (留6MB给其他数据)
       let totalSize = 0;
       let files = [];
       
@@ -232,12 +232,12 @@
         
         for (const file of newFiles) {
           if (file.size > MAX_FILE_SIZE) {
-            alert(`文件 ${file.name} 超过5MB限制，将被忽略`);
+            alert(`文件 ${file.name} 超过4MB限制，将被忽略`);
             continue;
           }
           
           if (newTotalSize + file.size > MAX_TOTAL_SIZE) {
-            alert(`无法添加 ${file.name}，总大小将超过5MB限制`);
+            alert(`无法添加 ${file.name}，总大小将超过4MB限制`);
             continue;
           }
           
