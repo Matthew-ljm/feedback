@@ -4,6 +4,7 @@ const Mailgun = require('mailgun.js');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
+const multiparty = require('multiparty');
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
