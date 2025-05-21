@@ -4,6 +4,7 @@ const Mailgun = require('mailgun.js');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
+const multiparty = require('multiparty');
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -11,7 +12,6 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    // 解析multipart/form-data
     const formData = new multiparty.Form();
     const data = await new Promise((resolve, reject) => {
       formData.parse(req, (err, fields, files) => {
@@ -23,13 +23,11 @@ module.exports = async function handler(req, res) {
     const { name, email, message, contactMe } = data.fields;
     const images = data.files.images || [];
 
-    // 创建临时目录
     const tempDir = path.join(os.tmpdir(), 'feedback-images');
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir);
     }
 
-    // 处理图片附件
     const attachments = [];
     for (const image of images) {
       const tempPath = path.join(tempDir, image.originalFilename);
@@ -41,7 +39,6 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    // 创建邮件内容
     const emailContent = `
       <h2>用户反馈</h2>
       <p><strong>姓名/昵称:</strong> ${name}</p>
@@ -51,7 +48,6 @@ module.exports = async function handler(req, res) {
       ${attachments.length > 0 ? '<p><strong>附件:</strong> ' + attachments.length + '张图片</p>' : ''}
     `;
 
-    // 创建邮件传输
     const transporter = nodemailer.createTransport({
       host: 'smtp.126.com',
       port: 465,
@@ -72,7 +68,6 @@ module.exports = async function handler(req, res) {
 
     await transporter.sendMail(mailOptions);
 
-    // 清理临时文件
     for (const attachment of attachments) {
       try {
         fs.unlinkSync(attachment.path);
