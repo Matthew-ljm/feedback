@@ -8,7 +8,7 @@ const multiparty = require('multiparty');
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: '仅支持 POST 请求' });
+    return res.status(404).json({ error: '资源不存在' });
   }
 
   try {
@@ -79,6 +79,6 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({ success: true, message: '反馈已收到，邮件已发送' });
   } catch (error) {
     console.error('处理反馈时出错:', error);
-    return res.status(500).json({ error: '服务器内部错误' });
+    return res.status(500).json({ error: '处理请求时发生错误' });
   }
 };
