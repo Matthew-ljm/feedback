@@ -19,10 +19,5 @@
       "dest": "/public/index.html"
     }
   ],
-  "build": {
-    "files": [
-      "api/**",
-      "public/**"
-    ]
-  }
+  "build": {}
 }
