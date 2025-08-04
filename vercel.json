@@ -5,16 +5,24 @@
       "dest": "/api/index.js",
       "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
       "headers": {
-        "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
         "Access-Control-Allow-Headers": "Content-Type, Authorization"
       }
     },
     {
+      "src": "/(.*\\.(ico|html|css|js|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot))$",
+      "dest": "/public/$1"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/feedback.html",
-      "methods": ["GET"]
+      "dest": "/public/index.html"
     }
-  ]
+  ],
+  "build": {
+    "files": [
+      "api/**",
+      "public/**"
+    ]
+  }
 }
